@@ -27,6 +27,7 @@ const Home = () => {
   const [gender, setGender] = useState('')
   const [bmr, setBmr] = useState()
   const [calories, setCalories] = useState(0)
+  const [showDietButton, setShowDietButton] = useState(false)
 
   const handleRadioChange = (e) => {
     setGender(e.target.value)
@@ -71,7 +72,7 @@ const Home = () => {
       setCalories(calories)
       localStorage.setItem('calories', calories)
     }
-    
+
   }
   console.log(activity, calories)
 
@@ -132,7 +133,7 @@ const Home = () => {
 
             <div
               className='w-48 rounded-[0.3vw] h-8 bg-blue-500 grid place-content-center text-white cursor-pointer'
-              onClick={()=>{handleSubmit();handleActivityCal()}}
+              onClick={() => { handleSubmit(); handleActivityCal(); setShowDietButton(true) }}
             >
               Submit
             </div>
@@ -149,13 +150,15 @@ const Home = () => {
                 Maintenance Calories = <span className='text-green-600 font-bold'>{Math.round(calories)} </span>Calories/day
               </div>
               <div className='flex flex-row mt-[4vw] w-full'>
-                <div
-                  className='mr-[2vw] w-[20vw] bg-blue-500 rounded-[0.2vw] grid place-content-center cursor-pointer'
-                  onClick={() => { setWeightGain(true); setWeightLose(false) }}
-                >
-                  <div className='py-[1.2vw] text-white'> Gain weight </div>
+                <a href='#gain' >
+                  <div
+                    className='mr-[2vw] w-[20vw] bg-blue-500 rounded-[0.2vw] grid place-content-center cursor-pointer'
+                    onClick={() => { setWeightGain(true); setWeightLose(false); }}
+                  >
+                    <div className='py-[1.2vw] text-white'> Gain weight </div>
 
-                </div>
+                  </div>
+                </a>
                 <div
                   className='mr-[2vw] w-[20vw] bg-red-500 rounded-[0.2vw] grid place-content-center cursor-pointer'
                   onClick={() => { setWeightGain(false); setWeightLose(true) }}
@@ -173,7 +176,7 @@ const Home = () => {
         {weightGain ?
           <div className='w-[30vw] bg-white p-8 shadow-2xl grid place-content-center'>
             <div className='p-4 '>
-              <div className='text-2xl mb-[1vw] font-semibold'>For Gaining Weight</div>
+              <div className='text-2xl mb-[1vw] font-semibold' id="gain">For Gaining Weight</div>
               <div className='text-2xl'>week 1 =&gt;<span className='mr-2'>{Math.round(calories + 10)}</span>calories</div>
               <div className='text-2xl'>week 2 =&gt;<span className='mr-2'>{Math.round(calories + 20)}</span>calories</div>
               <div className='text-2xl'>week 3 =&gt;<span className='mr-2'>{Math.round(calories + 30)}</span>calories</div>
@@ -193,12 +196,12 @@ const Home = () => {
               </div>
             </div> : ''}
       </div>
-      <Link to='/diet'>
+      {showDietButton && <Link to='/diet'>
         <div className='fixed bottom-8 right-8 bg-green-500 rounded-[0.3vw] cursor-pointer'>
           <div className='p-4 text-white font-semibold'> Go to Diet Planner</div>
 
         </div>
-      </Link>
+      </Link>}
 
     </>
   )
